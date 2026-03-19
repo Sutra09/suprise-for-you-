@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --soft-pink: #fff0f3;
+            --deep-red: #c9184a;
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            font-family: 'Poppins', sans-serif;
+            background-color: #0b0104;
+        }
+
+        /* Progress Bar Container */
+        #progress-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            z-index: 100;
+            display: none; 
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 12.5%; 
+            background: var(--primary-pink);
+            box-shadow: 0 0 15px var(--primary-pink);
+            border-radius: 10px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        #progress-heart {
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%) scale(1);
+            font-size: 20px;
+            filter: drop-shadow(0 0 8px var(--primary-pink));
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: bar-heart-beat 1.5s infinite;
+        }
+
+        @keyframes bar-heart-beat {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.4); }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 24px;
+            animation: sparkle-out 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        @keyframes sparkle-out {
+            0% { transform: translate(-50%, -50%) scale(0.2) rotate(0deg); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.8) rotate(180deg); opacity: 0; }
+        }
+
+        .emoji-bg {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 1;
+            animation: float-up 7s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        #music-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .playing-bar {
+            width: 3px;
+            height: 12px;
+            background: var(--primary-pink);
+            display: inline-block;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { height: 4px; }
+            to { height: 16px; }
+        }
+
+        #funnel-wrapper {
+            width: 100%;
+            height: 100vh;
+            transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        .section {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .content-box {
+            width: 92%;
+            max-width: 450px;
+            background: var(--glass);
+            padding: 2rem 1.2rem;
+            border-radius: 35px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.2);
+            transform: scale(0.8) translateY(60px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .active .content-box {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .visual-element {
+            font-size: 60px;
+            margin-bottom: 0.5rem;
+            display: block;
+            animation: hero-pulse 2.5s infinite ease-in-out;
+        }
+
+        /* Photo Frame - Optimized for Vertical Photos */
+        .photo-frame {
+            width: 100%;
+            height: 420px; /* Taller frame for your tall pictures */
+            margin: 0 auto 1rem;
+            border-radius: 15px;
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures head is NOT cut off */
+            display: block;
+        }
+
+        @keyframes hero-pulse {
+            0%, 100% { transform: scale(1) rotate(-3deg); }
+            50% { transform: scale(1.1) rotate(3deg); }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--deep-red);
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.1;
+        }
+
+        p {
+            color: #333;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+            font-weight: 300;
+        }
+
+        .btn {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .bg-1 { background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); }
+        .bg-2 { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+        .bg-3 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+        .bg-4 { background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%); }
+        .bg-cake { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .bg-photo1 { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
+        .bg-photo2 { background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%); }
+        .bg-final { background: linear-gradient(135deg, #feb47b 0%, #ff7e5f 100%); }
+
+        #entry-overlay {
+            position: fixed;
+            inset: 0;
+            background: #fff0f3;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease;
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.6rem; }
+            .photo-frame { height: 450px; } /* Maximize space for vertical photos on mobile */
+            .content-box { padding: 1.5rem 1rem; }
+        }
+    </style>
+</head>
+<body onclick="handleGlobalClick(event)">
+
+    <div id="entry-overlay">
+        <div style="font-size: 4rem; margin-bottom: 1rem; animation: heart-beat 1.2s infinite;">❤️</div>
+        <h2 style="color: #c9184a; font-family: 'Dancing Script', cursive; font-size: 2rem; margin-bottom: 25px; text-align: center;">Something special for you...</h2>
+        <button class="btn" onclick="initExperience(event)">Open the Gift 💌</button>
+    </div>
+
+    <audio id="main-audio" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="music-status">
+        <div class="playing-bar" style="animation-delay: 0s"></div>
+        <div class="playing-bar" style="animation-delay: 0.2s"></div>
+        <div class="playing-bar" style="animation-delay: 0.4s"></div>
+        <span id="music-text">Playing... ❤️</span>
+    </div>
+
+    <div id="progress-container">
+        <div id="progress-bar">
+            <span id="progress-heart">❤️</span>
+        </div>
+    </div>
+
+    <div id="funnel-wrapper">
+        <section class="section bg-1 active">
+            <div class="content-box">
+                <span class="visual-element">💝</span>
+                <h1>Happy Birthday My Heart ❤️</h1>
+                <p>Today is the day the world got brighter because you were born.</p>
+                <button class="btn" onclick="goNext(1, event)">Start Journey ✨</button>
+            </div>
+        </section>
+
+        <section class="section bg-2">
+            <div class="content-box">
+                <span class="visual-element">🫂</span>
+                <h1>My Lucky Charm</h1>
+                <p>You're my peace, my happiness, and my forever person. 🌍</p>
+                <button class="btn" onclick="goNext(2, event)">Next ❤️</button>
+            </div>
+        </section>
+
+        <section class="section bg-3">
+            <div class="content-box">
+                <span class="visual-element">✈️</span>
+                <h1>Distance means nothing</h1>
+                <p>Miles apart, but you're always in my heart. Missing you makes every moment with you special. ✨</p>
+                <button class="btn" onclick="goNext(3, event)">Keep going...</button>
+            </div>
+        </section>
+
+        <section class="section bg-4">
+            <div class="content-box">
+                <span class="visual-element">🤝</span>
+                <h1>My Promise</h1>
+                <p>To stand by you, to love you, and to grow with you. Today and forever.</p>
+                <button class="btn" onclick="goNext(4, event)">Blow Candles 🎂</button>
+            </div>
+        </section>
+
+        <section class="section bg-cake">
+            <div class="content-box">
+                <span class="visual-element">🎂</span>
+                <h1>Make a Wish!</h1>
+                <p>Close your eyes, make a wish, and know I'm always by your side. I love you!</p>
+                <button class="btn" onclick="goNext(5, event)">See Us ✨</button>
+            </div>
+        </section>
+
+        <section class="section bg-photo1">
+            <div class="content-box">
+                <div class="photo-frame">
+                    <img src="us1.jpg" alt="Our Memory">
+                </div>
+                <h1>Treasured Moments</h1>
+                <p>Every moment with you is a memory I treasure. ❤️</p>
+                <button class="btn" onclick="goNext(6, event)">One More 💖</button>
+            </div>
+        </section>
+
+        <section class="section bg-photo2">
+            <div class="content-box">
+                <div class="photo-frame">
+                    <img src="us2.jpg" alt="Our Memory">
+                </div>
+                <h1>Forever & Always</h1>
+                <p>You make my world complete. Can't wait for our next adventure! 🌍✨</p>
+                <button class="btn" onclick="goNext(7, event)">Final Message 💫</button>
+            </div>
+        </section>
+
+        <section class="section bg-final">
+            <div class="content-box">
+                <span class="visual-element">✨</span>
+                <h1>Happy Birthday! 💫</h1>
+                <p>I hope your day is as wonderful as you are. I'm so lucky to have you.</p>
+                <p style="font-weight: 600; font-family: 'Dancing Script', cursive; color: var(--deep-red); font-size: 1.4rem;">Forever Yours. ❤️</p>
+                <button class="btn" onclick="goNext(0, event)">🔄</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('funnel-wrapper');
+        const sections = document.querySelectorAll('.section');
+        const progressBar = document.getElementById('progress-bar');
+        const progressHeart = document.getElementById('progress-heart');
+        const progressContainer = document.getElementById('progress-container');
+        const audio = document.getElementById('main-audio');
+        const musicStatus = document.getElementById('music-status');
+
+        let musicTriggered = false;
+
+        function handleGlobalClick(e) {
+            createSparkle(e);
+            if (!musicTriggered && audio.paused) tryPlayMusic();
+        }
+
+        function createSparkle(e) {
+            const emojis = ['❤️', '💖', '✨', '🎉'];
+            const x = e.touches ? e.touches[0].clientX : e.clientX;
+            const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+            for (let i = 0; i < 6; i++) {
+                const s = document.createElement('div');
+                s.className = 'sparkle';
+                s.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                s.style.left = x + 'px';
+                s.style.top = y + 'px';
+                s.style.setProperty('--tx', `${(Math.random() - 0.5) * 150}px`);
+                s.style.setProperty('--ty', `${(Math.random() - 0.5) * 150}px`);
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 1200);
+            }
+        }
+
+        function tryPlayMusic() {
+            audio.play().then(() => {
+                musicTriggered = true;
+                musicStatus.style.display = 'flex';
+            }).catch(() => {});
+        }
+
+        function initExperience(e) {
+            if(e) e.stopPropagation();
+            document.getElementById('entry-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('entry-overlay').style.display = 'none';
+                progressContainer.style.display = 'block';
+            }, 1000);
+            tryPlayMusic();
+            startEmojiRain();
+        }
+
+        function goNext(index, e) {
+            if(e) e.stopPropagation();
+            tryPlayMusic();
+            wrapper.style.transform = `translateY(-${index * 100}vh)`;
+            progressBar.style.width = ((index + 1) / sections.length * 100) + '%';
+            sections.forEach((sec, i) => i === index ? sec.classList.add('active') : sec.classList.remove('active'));
+            if(index === sections.length - 1) triggerConfetti();
+        }
+
+        function triggerConfetti() {
+            for(let i = 0; i < 30; i++) {
+                setTimeout(() => createSparkle({clientX: Math.random()*window.innerWidth, clientY: Math.random()*window.innerHeight}), i*100);
+            }
+        }
+
+        function startEmojiRain() {
+            const emojis = ['❤️', '✨', '💖'];
+            setInterval(() => {
+                const e = document.createElement('div');
+                e.className = 'emoji-bg';
+                e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                e.style.left = Math.random() * 100 + 'vw';
+                e.style.animationDuration = (Math.random() * 2 + 5) + 's';
+                document.body.appendChild(e);
+                setTimeout(() => e.remove(), 7000);
+            }, 800);
+        }
+    </script>
+</body>
+</html>
